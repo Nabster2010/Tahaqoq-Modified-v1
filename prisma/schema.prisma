@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+
+ 
+}
+
+model User {
+  id       String    @id @default(cuid())
+  name     String
+  email    String    @unique
+  role     String    @default("user")
+  image    String?   @default("/images/avatar.png")
+  active   Boolean   @default(false)
+  password String
+  vehicles Vehicle[]
+}
+
+model Vehicle {
+  id            Int      @id @default(autoincrement())
+  title         String?  @unique
+  type          String
+  palette       String
+  modelYear     String
+  oldModel      String
+  newModel      String
+  vin           String
+  requestNo     String
+  requestDate   String
+  requestOrigin String
+  owner         String
+  computerNo    String
+  modifier      String?
+  reportNo      String?
+  createdAt     DateTime @default(now())
+  result        Result?
+  User          User     @relation(fields: [userId], references: [email])
+  userId        String
+}
+
+model Result {
+  vehicleId             Int            @id
+  vehicle               Vehicle        @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  hasModificationReport Boolean?       @default(true)
+  color                 String
+  weight                String
+  dimensions            String
+  engine                Engine?
+  transmision           Transmision?
+  exhaust               Exhaust?
+  fuel                  Fuel?
+  brake                 Brake?
+  edges                 Edges?
+  steering              Steering?
+  wheels                Wheels?
+  entertainment         Entertainment?
+  chassis               Chassis?
+  remarks               String?
+  createdAt             DateTime       @default(now())
+}
+
+model Engine {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Transmision {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Exhaust {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Fuel {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Brake {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Edges {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Steering {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Wheels {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Entertainment {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+model Chassis {
+  id           Int      @id
+  result       Result   @relation(fields: [id], references: [vehicleId], onDelete: Cascade)
+  modification Boolean  @default(false)
+  pass         Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
